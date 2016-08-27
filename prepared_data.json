@@ -1,0 +1,71 @@
+[
+  {
+    "type": "audio",
+    "name": "FirstAudio",
+    "cover": "audiocover.jpg",
+    "artist": "AudioArtist",
+    "album": "AudioAlbum",
+    "date": "2016.01.01 12:00:00"
+  },
+  {
+    "type": "audio",
+    "name": "SecondAudio",
+    "cover": "audiocover.jpg",
+    "artist": "AudioArtist",
+    "album": "AudioAlbum",
+    "date": "2016.01.01 12:00:00"
+  },
+  {
+    "type": "audio",
+    "name": "ThirdAudio",
+    "cover": "audiocover.jpg",
+    "artist": "AudioArtist",
+    "album": "AudioAlbum",
+    "date": "2016.01.01 12:00:00"
+  },
+  {
+    "type": "event",
+    "name": "FirstEvent",
+    "location": "Simferopol",
+    "date": "2016.01.01 12:00:00",
+    "date_end": "2017.01.01 12:00:00"
+  },
+  {
+    "type": "event",
+    "name": "SecondEvent",
+    "location": "Simferopol",
+    "date": "2016.01.01 12:00:00",
+    "date_end": "2017.01.01 12:00:00"
+  },
+  {
+    "type": "event",
+    "name": "ThirdEvent",
+    "location": "Simferopol",
+    "date": "2016.01.01 12:00:00",
+    "date_end": "2017.01.01 12:00:00"
+  },
+  {
+    "type": "movie",
+    "name": "FirstMovie",
+    "cover": "moviecover.jpg",
+    "artist": "MovieArtist",
+    "album": "MovieAlbum",
+    "date": "2016.01.01 12:00:00"
+  },
+  {
+    "type": "movie",
+    "name": "SecondMovie",
+    "cover": "moviecover.jpg",
+    "artist": "MovieArtist",
+    "album": "MovieAlbum",
+    "date": "2016.01.01 12:00:00"
+  },
+  {
+    "type": "movie",
+    "name": "ThirdMovie",
+    "cover": "moviecover.jpg",
+    "artist": "MovieArtist",
+    "album": "MovieAlbum",
+    "date": "2016.01.01 12:00:00"
+  }
+]

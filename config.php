@@ -3,9 +3,6 @@ return [
     'id' => 'yii2example',
     'basePath' => __DIR__,
     'components' => [
-        'request' => [
-            'enableCookieValidation' => false
-        ],
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=yii2example',
@@ -14,5 +11,24 @@ return [
             'charset' => 'utf8',
         ]
     ],
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'templateFile' => '@jamband/schemadump/template.php',
+        ],
+        'schemadump' => [
+            'class' => 'jamband\schemadump\SchemaDumpController',
+        ],
+    ],
     'params' => [],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'generators' => [
+                'fixture' => [
+                    'class' => 'elisdn\gii\fixture\Generator',
+                ],
+            ],
+        ]
+    ]
 ];
