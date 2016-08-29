@@ -8,16 +8,16 @@
       "email": "sevenflash@yandex.ru"
     }
   ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": ">=2.0.6",
-        "yiisoft/yii2-bootstrap": "*",
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
-    }
+  "minimum-stability": "dev",
+  "require": {
+      "php": ">=5.4.0",
+      "yiisoft/yii2": ">=2.0.6",
+      "yiisoft/yii2-bootstrap": "*"
+  },
+  "extra": {
+      "asset-installer-paths": {
+          "npm-asset-library": "vendor/npm",
+          "bower-asset-library": "vendor/bower"
+      }
+  }
 }
