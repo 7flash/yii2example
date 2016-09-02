@@ -4,22 +4,42 @@ namespace app\models;
 use yii\db\Expression;
 use yii\db\Query;
 
+class Test {
+    public static function success() {
+        return 'success';
+    }
+}
+
 class Manager
 {
     public static function findItems($types)
     {
-        $null = new Expression('NULL');
-        $fields = [
-            'audio' => ['name', 'cover', 'artist', $null, 'album', 'date', $null, 'date_published', new Expression("'audio' as `type`")],
-            'event' => ['name', $null, $null, 'location', $null, 'date', 'date_end', 'date_published', new Expression("'event' as `type`")],
-            'movie' => ['name', 'cover', 'artist', new Expression('NULL as `location`'), 'album', 'date', new Expression('NULL as `date_end`'), 'date_published', new Expression("'movie' as `type`")]
-        ];
-        $queries = [];
+        $fields = array();
+        $queries = array();
+        $activeRecords = ['audio'=>'app\models\Audio', 'event'=>'app\models\Event', 'movie'=>'app\models\Movie'];
         foreach ($types as $type) {
-            if (isset($fields[$type])) {
-                $typeFields = $fields[$type];
-                $queries[] = (new Query())->select($typeFields)->from($type);
+            if (isset($activeRecords[$type])) {
+                $activeRecord = $activeRecords[$type];
+                $typeFields = $activeRecord::getTableSchema()->getColumnNames();
+                $fields[$activeRecord] = $typeFields;
             }
+        }
+        $originalFields = $fields;
+        foreach($originalFields as $type => $typeFields) {
+            foreach($originalFields as $anotherTypeFields) {
+                $diffFields = array_diff($anotherTypeFields, $typeFields);
+                foreach($diffFields as $diffField) {
+                    $expression = new Expression("NULL as `$diffField`");
+                    array_push($fields[$type], $expression);
+                    array_push($typeFields, $diffField);
+                }
+            }
+            $typeItem = array_search($type, $activeRecords);
+            $typeExpression = new Expression("'$typeItem' as `type`");
+            array_push($fields[$type], $typeExpression);
+        }
+        foreach($fields as $activeRecord => $typeFields) {
+            $queries[] = $activeRecord::find()->select($typeFields);
         }
         $firstQuery = array_shift($queries);
         $unionQuery = array_reduce($queries, function ($previousQuery, $currentQuery) {
