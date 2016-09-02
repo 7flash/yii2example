@@ -2,6 +2,7 @@
 use yii\bootstrap\BaseHtml;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;
@@ -10,7 +11,7 @@ use yii\widgets\Pjax;
 
 AppAsset::register($this);
 
-$dataProvider = new ArrayDataProvider(['allModels' => $items, 'pagination' => ['pageSize' => 10], 'sort' => ['attributes' => ['date'], 'defaultOrder' => ['date' => (int)$sort]]]);
+$dataProvider = new ActiveDataProvider(['query' => $itemsQuery, 'pagination' => ['pageSize' => 10], 'sort' => ['attributes' => ['date'], 'defaultOrder' => ['date' => (int)$sort]]]);
 $models = $dataProvider->getModels();
 $pagination = $dataProvider->getPagination();
 ?>
@@ -60,7 +61,7 @@ $pagination = $dataProvider->getPagination();
         <?php echo BaseHtml::endForm(); ?>
         <?php
         foreach ($models as $model) {
-            echo $this->render($model->tableName(), ArrayHelper::toArray($model));
+            echo $this->render($model['type'], ArrayHelper::toArray($model));
         }
         ?>
         <div class="row">

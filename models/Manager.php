@@ -1,25 +1,32 @@
 <?php
 namespace app\models;
 
+use yii\db\Expression;
+use yii\db\Query;
+
 class Manager
 {
     public static function findItems($types)
     {
-        $items = array();
-        if (empty($types)) {
-            $items = array_merge(Movie::find()->all(), Audio::find()->all(), Event::find()->all());
-        } else {
-            if (in_array('movie', $types)) {
-                $items = array_merge($items, Movie::find()->all());
-            }
-            if (in_array('audio', $types)) {
-                $items = array_merge($items, Audio::find()->all());
-            }
-            if (in_array('event', $types)) {
-                $items = array_merge($items, Event::find()->all());
+        $null = new Expression('NULL');
+        $fields = [
+            'audio' => ['name', 'cover', 'artist', $null, 'album', 'date', $null, 'date_published', new Expression("'audio' as `type`")],
+            'event' => ['name', $null,  $null, 'location', $null, 'date', 'date_end', 'date_published', new Expression("'event' as `type`")],
+            'movie' => ['name', 'cover', 'artist', new Expression('NULL as `location`'), 'album', 'date', new Expression('NULL as `date_end`'), 'date_published', new Expression("'movie' as `type`")]
+        ];
+        $queries = [];
+        foreach($types as $type) {
+            if(isset($fields[$type])) {
+                $typeFields = $fields[$type];
+                $queries[] = (new Query())->select($typeFields)->from($type);
             }
         }
-        return $items;
+        $firstQuery = array_shift($queries);
+        $unionQuery = array_reduce($queries, function($previousQuery, $currentQuery) {
+            return $previousQuery->union($currentQuery, true);
+        }, $firstQuery);
+        $itemsQuery = (new Query)->from(['union' => $unionQuery]);
+        return $itemsQuery;
     }
 
     public static function createItem($type, $params)

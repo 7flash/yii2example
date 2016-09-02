@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\web\Controller;
 use app\models\Item;
 use app\models\Audio;
@@ -22,8 +23,8 @@ class SiteController extends Controller
     {
         $types = Yii::$app->request->get('types', ['movie', 'audio', 'event']);
         $sort = Yii::$app->request->get('sort', SORT_DESC);
-        $items = Manager::findItems($types);
+        $itemsQuery = Manager::findItems($types);
         $stats = Manager::getStatistics();
-        return $this->render('default', ['items' => $items, 'types' => $types, 'sort' => $sort, 'stats' => $stats]);
+        return $this->render('default', ['itemsQuery' => $itemsQuery, 'types' => $types, 'sort' => $sort, 'stats' => $stats]);
     }
 }
