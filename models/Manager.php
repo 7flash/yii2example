@@ -4,12 +4,6 @@ namespace app\models;
 use yii\db\Expression;
 use yii\db\Query;
 
-class Test {
-    public static function success() {
-        return 'success';
-    }
-}
-
 class Manager
 {
     public static function findItems($types)
