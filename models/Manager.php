@@ -11,18 +11,18 @@ class Manager
         $null = new Expression('NULL');
         $fields = [
             'audio' => ['name', 'cover', 'artist', $null, 'album', 'date', $null, 'date_published', new Expression("'audio' as `type`")],
-            'event' => ['name', $null,  $null, 'location', $null, 'date', 'date_end', 'date_published', new Expression("'event' as `type`")],
+            'event' => ['name', $null, $null, 'location', $null, 'date', 'date_end', 'date_published', new Expression("'event' as `type`")],
             'movie' => ['name', 'cover', 'artist', new Expression('NULL as `location`'), 'album', 'date', new Expression('NULL as `date_end`'), 'date_published', new Expression("'movie' as `type`")]
         ];
         $queries = [];
-        foreach($types as $type) {
-            if(isset($fields[$type])) {
+        foreach ($types as $type) {
+            if (isset($fields[$type])) {
                 $typeFields = $fields[$type];
                 $queries[] = (new Query())->select($typeFields)->from($type);
             }
         }
         $firstQuery = array_shift($queries);
-        $unionQuery = array_reduce($queries, function($previousQuery, $currentQuery) {
+        $unionQuery = array_reduce($queries, function ($previousQuery, $currentQuery) {
             return $previousQuery->union($currentQuery, true);
         }, $firstQuery);
         $itemsQuery = (new Query)->from(['union' => $unionQuery]);
