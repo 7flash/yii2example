@@ -10,7 +10,7 @@ class Manager
     {
         $fields = array();
         $queries = array();
-        $activeRecords = ['audio'=>'app\models\Audio', 'event'=>'app\models\Event', 'movie'=>'app\models\Movie'];
+        $activeRecords = ['audio' => 'app\models\Audio', 'event' => 'app\models\Event', 'movie' => 'app\models\Movie'];
         foreach ($types as $type) {
             if (isset($activeRecords[$type])) {
                 $activeRecord = $activeRecords[$type];
@@ -19,10 +19,10 @@ class Manager
             }
         }
         $originalFields = $fields;
-        foreach($originalFields as $type => $typeFields) {
-            foreach($originalFields as $anotherTypeFields) {
+        foreach ($originalFields as $type => $typeFields) {
+            foreach ($originalFields as $anotherTypeFields) {
                 $diffFields = array_diff($anotherTypeFields, $typeFields);
-                foreach($diffFields as $diffField) {
+                foreach ($diffFields as $diffField) {
                     $expression = new Expression("NULL as `$diffField`");
                     array_push($fields[$type], $expression);
                     array_push($typeFields, $diffField);
@@ -32,7 +32,7 @@ class Manager
             $typeExpression = new Expression("'$typeItem' as `type`");
             array_push($fields[$type], $typeExpression);
         }
-        foreach($fields as $activeRecord => $typeFields) {
+        foreach ($fields as $activeRecord => $typeFields) {
             $queries[] = $activeRecord::find()->select($typeFields);
         }
         $firstQuery = array_shift($queries);
